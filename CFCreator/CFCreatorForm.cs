@@ -8,82 +8,154 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using static CFCreator.Functions;
+using System.Drawing.Drawing2D;
 
 namespace CFCreator
 {
     public partial class CFCreatorForm : Form
     {
-        private Size _GridSize = new Size(50, 50);
-        public Size GridSize
-        {
-            get { return _GridSize; }
-        }
+        public List<MapTile> MapTileList = new List<MapTile>();
+        private static List<Point> ClickedTiles = new List<Point>();
+        private static RectangleF InfoRectangle;
+        public Size GridSize = new Size(50, 50);
         public CFCreatorForm()
         {
             InitializeComponent();
-            pictureBox.MouseUp += PictureBox_MouseUp;
-            pictureBox.MouseMove += PictureBox_MouseMove;
-            pictureBox.MouseEnter += PictureBox_MouseEnter;
-            pictureBox.MouseLeave += PictureBox_MouseLeave;
 
-        }
-        private void CFCreatorForm_Load(object sender, EventArgs e)
-        {
-            pictureBox.BackgroundImage = new Bitmap(1000, 1000);
-            pictureBox.Image = new Bitmap(1000, 1000);
-            //initializes foreground image
-            Functions.MakeGrid(this);
-            //meat of drawing the grid on the pictureBox image (foreground)
-        }
+            WaferMaps.Add(new WaferMap()
+            {
+                Name = "Target",
+                Dock = DockStyle.Fill
+            });
 
-        private void PictureBox_MouseLeave(object sender, EventArgs e)
-        /// <summary>
-        /// Resets Cursor to default arror when leaving pictureBox
-        /// </summary>
-        {
-            Cursor = Cursors.Default;
-        }
+            WaferMaps.Add(new WaferMap()
+            {
+                Name = "Source",
+                Dock = DockStyle.Fill
+            });
+            tableLayoutPanel1.Controls.Add(WaferMaps[0], 1, 0);
+            tableLayoutPanel1.Controls.Add(WaferMaps[1], 1, 1);
 
-        private void PictureBox_MouseEnter(object sender, EventArgs e)
-        /// <summary>
-        /// Changes cursor to cross when inside pictureBox
-        /// </summary>
-        {
-            Cursor = Cursors.Cross;
-        }
-
-        private void PictureBox_MouseMove(object sender, MouseEventArgs e)
-        /// <summary>
-        /// Event for moving mouse over square.
-        /// Contains if statement to handle holding down left mouse button.
-        /// </summary>
-        {
-            if (e.Button == MouseButtons.Left)
-                Functions.ClickMapTile(e.Location, this, waitForExit: true);
-            Functions.HighlightMapTile(e.Location, this);
-        }
-
-        private void PictureBox_MouseUp(object sender, MouseEventArgs e)
-        /// <summary>
-        /// Handles mouse click over square
-        /// </summary>
-        {
-            Functions.ClickMapTile(e.Location, this);
         }
 
         private void DrawWafer_Click(object sender, EventArgs e)
         {
-            int row = (int)TgtRows.Value;
-            int col = (int)TgtCols.Value;
-            _GridSize = new Size(col, row);
-            pictureBox.BackgroundImage = new Bitmap(1000, 1000);
-            pictureBox.Image = new Bitmap(1000, 1000);
-            Functions.MakeGrid(this);
+            int tgtrow = (int)TgtRegRows.Value*(int)TgtPrintRows.Value;
+            int tgtcol = (int)TgtRegCols.Value*(int)TgtPrintCols.Value;
+            int srcrow = (int)SrcRegRows.Value*(int)SrcClustRows.Value;
+            int srccol = (int)SrcRegCols.Value*(int)SrcClustCols.Value;
+            WaferMaps[0].GridSize = new Size (tgtcol, tgtrow);
+            WaferMaps[1].GridSize = new Size (srccol, srcrow);
+            WaferMaps[0].pictureBox.BackgroundImage = new Bitmap(1000, 1000);
+            WaferMaps[0].pictureBox.Image = new Bitmap(1000, 1000);
+            WaferMaps[1].pictureBox.BackgroundImage = new Bitmap(1000, 1000);
+            WaferMaps[1].pictureBox.Image = new Bitmap(1000, 1000);
+            MakeGrid(0);
+            MakeGrid(1);
         }
-
+        #region making grid
         private void CreateCF_Click(object sender, EventArgs e)
         {
             Functions.CountTiles(this);
         }
+        public static void MakeGrid(int n)
+        {
+            WaferMaps[n].MapTileList.Clear();
+            Size size = WaferMaps[n].GridSize;
+            PictureBox pbx = WaferMaps[n].pictureBox;
+            Bitmap bitmap = (Bitmap)pbx.Image.Clone();
+            //new bitmap is clone of blank form created in picturebox
+            Size cellSize = new Size(bitmap.Width / size.Width, bitmap.Height / size.Height);
+            Point center = new Point(bitmap.Width / 2, bitmap.Height / 2);
+            double radius = Math.Min((cellSize.Width * size.Width) + cellSize.Width, (cellSize.Height * size.Height) + cellSize.Height) / 2;
+            for (int i = 0; i < size.Width; i++)
+            {
+                for (int j = 0; j < size.Height; j++)
+                {
+                    Rectangle rectangle = new Rectangle(i * cellSize.Width, j * cellSize.Height, cellSize.Width, cellSize.Height);
+                    if (Functions.CheckRectInCircle(rectangle, center, radius))
+                        WaferMaps[n].MapTileList.Add(new MapTile(rectangle, i, j));
+                }
+            }
+            DrawGrid(pbx, size, n);
+            DrawTiles(pbx, n);
+        }
+
+        #endregion
+
+        #region Drawing
+
+        public static void DrawGrid(PictureBox pbx, Size size, int n)
+        {
+            Bitmap bitmap = (Bitmap)pbx.Image.Clone();
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                foreach (MapTile tile in WaferMaps[n].MapTileList)
+                {
+                    g.DrawRectangle(Pens.Black, tile.Rectangle);
+                }
+            }
+            pbx.Image = bitmap;
+        }
+        public static void DrawTiles(PictureBox pbx, int n)
+        {
+            //for timing how long a process takes
+            Stopwatch sw = new Stopwatch();
+            sw.Restart();
+
+            Bitmap bitmap = (Bitmap)pbx.BackgroundImage.Clone();
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                //Clear last tile
+                g.FillRectangle(new SolidBrush(SystemColors.Control), InfoRectangle);
+
+                MapTile tileUnderCursor = null;
+                foreach (MapTile tile in WaferMaps[n].MapTileList.Where(x => x.NeedsUpdate || x.Highlight))
+                {
+                    if (tile.Highlight)
+                    {
+
+                        //cell will always be highlighted when it changes color
+                        g.FillRectangle(new SolidBrush(tile.Color), tile.Rectangle);
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(90, Color.Black)), tile.Rectangle);
+                        tileUnderCursor = tile;
+                    }
+                    else
+                    {
+                        //look for previously highlighted cells
+                        double A = bitmap.GetPixel(tile.Rectangle.X, tile.Rectangle.Y).A;
+                        if (A != 100)
+                            g.FillRectangle(new SolidBrush(tile.Color), tile.Rectangle);
+                        // A=100 is the color value for highlighted
+                    }
+                }
+
+                // display for cursor position in wafer coordinates
+                if (tileUnderCursor != null)
+                {
+                    //These options help with text drawing
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                    //Draw new text for tile location
+                    string location = string.Format("{0}, {1}", tileUnderCursor.Location.X, tileUnderCursor.Location.Y);
+                    Font font = new Font("Tahoma", 25);
+                    SizeF size = g.MeasureString(location, font);
+                    InfoRectangle = new RectangleF(bitmap.Width - size.Width * 1.1f, size.Height * 1.1f, size.Width, size.Height);
+                    g.DrawString(location, font, Brushes.Black, InfoRectangle);
+                }
+
+            }
+            //updates background image to be the highlighted and colored tiles
+            pbx.BackgroundImage = bitmap;
+
+            //Output the time for this method's duration
+            sw.Stop();
+            //Debug.WriteLine(sw.Elapsed);
+        }
+
+        #endregion
     }
 }
