@@ -32,6 +32,12 @@ namespace CFCreator
             get { return _Rectangle; }
         }
 
+        private TileID _ID;
+        public TileID ID
+        {
+            get { return _ID; }
+        }
+
         private Color _Color = myColors[0];
         public Color Color
         {
@@ -58,16 +64,10 @@ namespace CFCreator
             }
         }
 
-        private Point _Location;
-        public Point Location
-        {
-            get { return _Location; }
-        }
-
-        public MapTile(Rectangle rectangle, int row, int col)
+        public MapTile(Rectangle rectangle, TileID id)
         {
             _Rectangle = rectangle;
-            _Location = new Point(col + 1, row + 1);
+            _ID = id;
         }
 
         public void ChangeColor()
