@@ -47,6 +47,21 @@ namespace CFCreator
                 }
             }
         }
+        public struct TileID
+        {
+            public TileID(int i, int j, int k, int l)
+            {
+                I = i;
+                J = j;
+                K = k;
+                L = l;
+            }
+            public int I { get; }
+            public int J { get; }
+            public int K { get; }
+            public int L { get; }
 
+            public override string ToString() => $"({I}, {J}, {K}, {L})";
+        }
     }
 }
