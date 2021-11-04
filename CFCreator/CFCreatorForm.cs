@@ -41,12 +41,10 @@ namespace CFCreator
 
         private void DrawWafer_Click(object sender, EventArgs e)
         {
-            int tgtrow = (int)TgtRegRows.Value*(int)TgtPrintRows.Value;
-            int tgtcol = (int)TgtRegCols.Value*(int)TgtPrintCols.Value;
-            int srcrow = (int)SrcRegRows.Value*(int)SrcClustRows.Value;
-            int srccol = (int)SrcRegCols.Value*(int)SrcClustCols.Value;
-            WaferMaps[0].GridSize = new Size (tgtcol, tgtrow);
-            WaferMaps[1].GridSize = new Size (srccol, srcrow);
+            WaferMaps[0].RegGridSize = new Size ((int)TgtRegRows.Value, (int)TgtRegCols.Value);
+            WaferMaps[0].ClustGridSize = new Size((int)TgtPrintRows.Value, (int)TgtPrintCols.Value);
+            WaferMaps[1].RegGridSize = new Size((int)SrcRegRows.Value, (int)SrcRegCols.Value);
+            WaferMaps[1].ClustGridSize = new Size((int)SrcClustRows.Value, (int)SrcClustCols.Value);
             WaferMaps[0].pictureBox.BackgroundImage = new Bitmap(1000, 1000);
             WaferMaps[0].pictureBox.Image = new Bitmap(1000, 1000);
             WaferMaps[1].pictureBox.BackgroundImage = new Bitmap(1000, 1000);
@@ -62,20 +60,31 @@ namespace CFCreator
         public static void MakeGrid(int n)
         {
             WaferMaps[n].MapTileList.Clear();
-            Size size = WaferMaps[n].GridSize;
+            Size size = WaferMaps[n].TotGridSize;
+            Size regions = WaferMaps[n].RegGridSize;
+            Size clusters = WaferMaps[n].ClustGridSize;
             PictureBox pbx = WaferMaps[n].pictureBox;
             Bitmap bitmap = (Bitmap)pbx.Image.Clone();
             //new bitmap is clone of blank form created in picturebox
             Size cellSize = new Size(bitmap.Width / size.Width, bitmap.Height / size.Height);
             Point center = new Point(bitmap.Width / 2, bitmap.Height / 2);
             double radius = Math.Min((cellSize.Width * size.Width) + cellSize.Width, (cellSize.Height * size.Height) + cellSize.Height) / 2;
-            for (int i = 0; i < size.Width; i++)
+            for (int i = 0; i < regions.Width; i++)
             {
-                for (int j = 0; j < size.Height; j++)
+                for (int j = 0; j < regions.Height; j++)
                 {
-                    Rectangle rectangle = new Rectangle(i * cellSize.Width, j * cellSize.Height, cellSize.Width, cellSize.Height);
-                    if (Functions.CheckRectInCircle(rectangle, center, radius))
-                        WaferMaps[n].MapTileList.Add(new MapTile(rectangle, i, j));
+                    for (int k = 0; k < clusters.Width; k++)
+                    {
+                        for (int l = 0; l < clusters.Height; l++)
+                        {
+                            Rectangle rectangle = new Rectangle(i * cellSize.Width, j * cellSize.Height, cellSize.Width, cellSize.Height);
+                            TileID loc = new TileID(i, j, k, l);
+                            WaferMaps[n].MapTileList.Add(new MapTile(rectangle, loc));
+                            //Use this to only draw in a circle
+                            //if (Functions.CheckRectInCircle(rectangle, center, radius))
+                               //WaferMaps[n].MapTileList.Add(new MapTile(rectangle, i, j));
+                        }
+                    }
                 }
             }
             DrawGrid(pbx, size, n);
@@ -140,7 +149,7 @@ namespace CFCreator
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
                     //Draw new text for tile location
-                    string location = string.Format("{0}, {1}", tileUnderCursor.Location.X, tileUnderCursor.Location.Y);
+                    string location = string.Format(tileUnderCursor.ID.ToString());
                     Font font = new Font("Tahoma", 25);
                     SizeF size = g.MeasureString(location, font);
                     InfoRectangle = new RectangleF(bitmap.Width - size.Width * 1.1f, size.Height * 1.1f, size.Width, size.Height);
