@@ -26,9 +26,21 @@ namespace CFCreator
         }
 
         public List<MapTile> MapTileList = new List<MapTile>();
-        public List<Point> ClickedTiles = new List<Point>();
+        public List<TileID> ClickedTiles = new List<TileID>();
         private RectangleF InfoRectangle;
-        public Size GridSize = new Size(50, 50);
+        public Size RegGridSize = new Size(10, 10);
+        public Size ClustGridSize = new Size(10, 10);
+        public Size TotGridSize
+        {
+            get {
+                return new Size
+                   (
+                      RegGridSize.Width * ClustGridSize.Width, 
+                      RegGridSize.Height * ClustGridSize.Height
+                   );
+                 }
+        }
+
 
 
         ///<summary>
@@ -107,7 +119,7 @@ namespace CFCreator
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
                     //Draw new text for tile location
-                    string location = string.Format("{0}, {1}", tileUnderCursor.Location.X, tileUnderCursor.Location.Y);
+                    string location = tileUnderCursor.ID.ToString();
                     Font font = new Font("Tahoma", 25);
                     SizeF size = g.MeasureString(location, font);
                     InfoRectangle = new RectangleF(bitmap.Width - size.Width * 1.1f, size.Height * 1.1f, size.Width, size.Height);

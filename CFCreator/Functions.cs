@@ -42,11 +42,10 @@ namespace CFCreator
                 Debug.WriteLine((Functions.WaferMaps.IndexOf(Wafer)));
                 foreach (MapTile tile in Wafer.MapTileList.Where(x => x.Color == Color.Green))
                 {
-                    Wafer.ClickedTiles.Add(new Point(tile.Location.X, tile.Location.Y));
-                    Debug.WriteLine(string.Format("{0}, {1}", tile.Location.X, tile.Location.Y));
+                    Wafer.ClickedTiles.Add(new TileID(tile.ID.I, tile.ID.J, tile.ID.K, tile.ID.L));
+                    Debug.WriteLine(tile.ID.ToString());
                 }
             }
         }
-
     }
 }

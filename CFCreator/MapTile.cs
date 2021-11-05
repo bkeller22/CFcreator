@@ -1,8 +1,25 @@
 ﻿using System;
 using System.Drawing;
 
+
 namespace CFCreator
 {
+    public struct TileID
+    {
+        public TileID(int i, int j, int k, int l)
+        {
+            I = i;
+            J = j;
+            K = k;
+            L = l;
+        }
+        public int I { get; }
+        public int J { get; }
+        public int K { get; }
+        public int L { get; }
+
+        public override string ToString() => $"({I}, {J}, {K}, {L})";
+    }
     public class MapTile
     {
         private static Color[] myColors = new Color[] { Color.White, Color.Green };
@@ -58,16 +75,15 @@ namespace CFCreator
             }
         }
 
-        private Point _Location;
-        public Point Location
+        private TileID _ID;
+        public TileID ID
         {
-            get { return _Location; }
+            get { return _ID; }
         }
-
-        public MapTile(Rectangle rectangle, int row, int col)
-        {
+        public MapTile(Rectangle rectangle, TileID id)
+        {           
             _Rectangle = rectangle;
-            _Location = new Point(col + 1, row + 1);
+            _ID = id;
         }
 
         public void ChangeColor()
