@@ -26,7 +26,8 @@ namespace CFCreator
         }
 
         public List<MapTile> MapTileList = new List<MapTile>();
-        public List<TileID> ClickedTiles = new List<TileID>();
+        public List<TileID> OrderClickedTiles = new List<TileID>();
+        public List<TileID> GenClickedTiles = new List<TileID>();
         private RectangleF InfoRectangle;
         public Size RegGridSize = new Size(10, 10);
         public Size ClustGridSize = new Size(10, 10);
@@ -72,6 +73,17 @@ namespace CFCreator
                     if (waitForExit && tile.Highlight)
                         return;
                     tile.ChangeColor();
+
+                    //adds or removes tile from ClickedTiles.  if ClickOrderCheckBox isn't checked, the list will be cleared and recompiled
+                    if (tile.Color == Color.Green)
+                    {
+                        OrderClickedTiles.Add(tile.ID);
+                    }
+                    else
+                    {
+                        OrderClickedTiles.Remove(tile.ID);
+                    }
+                  
                 }
             }
             DrawTiles(pbx);
@@ -82,7 +94,6 @@ namespace CFCreator
             //for timing how long a process takes
             Stopwatch sw = new Stopwatch();
             sw.Restart();
-
             Bitmap bitmap = (Bitmap)pbx.BackgroundImage.Clone();
             using (Graphics g = Graphics.FromImage(bitmap))
             {
