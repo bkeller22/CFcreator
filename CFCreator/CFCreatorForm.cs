@@ -47,9 +47,14 @@ namespace CFCreator
             WaferMaps[1].pictureBox.Image = new Bitmap(1000, 1000);
             MakeGrid(0);
             MakeGrid(1);
+            foreach (WaferMap wafer in WaferMaps)
+            {
+                wafer.OrderClickedTiles.Clear();
+            }
         }
         private void CreateCF_Click(object sender, EventArgs e)
         {
+            Functions.ordercheck = ClickOrderCheckBox.Checked;
             Functions.CountTiles(this);
         }
         

@@ -14,6 +14,9 @@ namespace CFCreator
         //initializes list of wafer maps
         public static List<WaferMap> WaferMaps = new List<WaferMap>();
 
+        //initializes bool for ClickOrderCheckBox
+        public static bool ordercheck;
+
         ///<summary>
         ///Bool to check if rectangle is inside circle
         /// </summary>
@@ -40,10 +43,21 @@ namespace CFCreator
             foreach (WaferMap Wafer in Functions.WaferMaps)
             {
                 Debug.WriteLine((Functions.WaferMaps.IndexOf(Wafer)));
-                foreach (MapTile tile in Wafer.MapTileList.Where(x => x.Color == Color.Green))
+                if (ordercheck == false) 
                 {
-                    Wafer.ClickedTiles.Add(new TileID(tile.ID.I, tile.ID.J, tile.ID.K, tile.ID.L));
-                    Debug.WriteLine(tile.ID.ToString());
+                    Wafer.GenClickedTiles.Clear();
+                    foreach (MapTile tile in Wafer.MapTileList.Where(x => x.Color == Color.Green))
+                    {
+                        Wafer.GenClickedTiles.Add(new TileID(tile.ID.I, tile.ID.J, tile.ID.K, tile.ID.L));
+                    }
+                    foreach (TileID clickedids in Wafer.OrderClickedTiles)
+                        Debug.WriteLine(clickedids.ToString());
+                }
+
+                else
+                {
+                    foreach (TileID clickedids in Wafer.GenClickedTiles)
+                        Debug.WriteLine(clickedids.ToString());
                 }
             }
         }

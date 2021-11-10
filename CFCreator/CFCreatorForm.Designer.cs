@@ -49,6 +49,7 @@ namespace CFCreator
             this.SrcClustCols = new System.Windows.Forms.NumericUpDown();
             this.DrawWafer = new System.Windows.Forms.Button();
             this.CreateCF = new System.Windows.Forms.Button();
+            this.ClickOrderCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TgtRegRows)).BeginInit();
@@ -95,6 +96,7 @@ namespace CFCreator
             this.flowLayoutPanel1.Controls.Add(this.srcClustColLabel);
             this.flowLayoutPanel1.Controls.Add(this.SrcClustCols);
             this.flowLayoutPanel1.Controls.Add(this.DrawWafer);
+            this.flowLayoutPanel1.Controls.Add(this.ClickOrderCheckBox);
             this.flowLayoutPanel1.Controls.Add(this.CreateCF);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -110,7 +112,7 @@ namespace CFCreator
             this.tgtRegRowLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tgtRegRowLabel.Location = new System.Drawing.Point(3, 0);
             this.tgtRegRowLabel.Name = "tgtRegRowLabel";
-            this.tgtRegRowLabel.Size = new System.Drawing.Size(134, 15);
+            this.tgtRegRowLabel.Size = new System.Drawing.Size(148, 15);
             this.tgtRegRowLabel.TabIndex = 0;
             this.tgtRegRowLabel.Text = "Target Region Rows";
             // 
@@ -119,7 +121,7 @@ namespace CFCreator
             this.TgtRegRows.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TgtRegRows.Location = new System.Drawing.Point(3, 18);
             this.TgtRegRows.Name = "TgtRegRows";
-            this.TgtRegRows.Size = new System.Drawing.Size(134, 23);
+            this.TgtRegRows.Size = new System.Drawing.Size(148, 23);
             this.TgtRegRows.TabIndex = 1;
             this.TgtRegRows.Value = new decimal(new int[] {
             2,
@@ -133,7 +135,7 @@ namespace CFCreator
             this.tgtRegColsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tgtRegColsLabel.Location = new System.Drawing.Point(3, 44);
             this.tgtRegColsLabel.Name = "tgtRegColsLabel";
-            this.tgtRegColsLabel.Size = new System.Drawing.Size(134, 15);
+            this.tgtRegColsLabel.Size = new System.Drawing.Size(148, 15);
             this.tgtRegColsLabel.TabIndex = 2;
             this.tgtRegColsLabel.Text = "Target Region Columns";
             // 
@@ -142,7 +144,7 @@ namespace CFCreator
             this.TgtRegCols.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TgtRegCols.Location = new System.Drawing.Point(3, 62);
             this.TgtRegCols.Name = "TgtRegCols";
-            this.TgtRegCols.Size = new System.Drawing.Size(134, 23);
+            this.TgtRegCols.Size = new System.Drawing.Size(148, 23);
             this.TgtRegCols.TabIndex = 3;
             this.TgtRegCols.Value = new decimal(new int[] {
             2,
@@ -156,7 +158,7 @@ namespace CFCreator
             this.TgtPrintRowLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TgtPrintRowLabel.Location = new System.Drawing.Point(3, 88);
             this.TgtPrintRowLabel.Name = "TgtPrintRowLabel";
-            this.TgtPrintRowLabel.Size = new System.Drawing.Size(134, 15);
+            this.TgtPrintRowLabel.Size = new System.Drawing.Size(148, 15);
             this.TgtPrintRowLabel.TabIndex = 10;
             this.TgtPrintRowLabel.Text = "Print Rows";
             // 
@@ -165,7 +167,7 @@ namespace CFCreator
             this.TgtPrintRows.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TgtPrintRows.Location = new System.Drawing.Point(3, 106);
             this.TgtPrintRows.Name = "TgtPrintRows";
-            this.TgtPrintRows.Size = new System.Drawing.Size(134, 23);
+            this.TgtPrintRows.Size = new System.Drawing.Size(148, 23);
             this.TgtPrintRows.TabIndex = 8;
             this.TgtPrintRows.Value = new decimal(new int[] {
             10,
@@ -179,7 +181,7 @@ namespace CFCreator
             this.TgtPrintColLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TgtPrintColLabel.Location = new System.Drawing.Point(3, 132);
             this.TgtPrintColLabel.Name = "TgtPrintColLabel";
-            this.TgtPrintColLabel.Size = new System.Drawing.Size(134, 15);
+            this.TgtPrintColLabel.Size = new System.Drawing.Size(148, 15);
             this.TgtPrintColLabel.TabIndex = 11;
             this.TgtPrintColLabel.Text = "Print Columns";
             // 
@@ -188,7 +190,7 @@ namespace CFCreator
             this.TgtPrintCols.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TgtPrintCols.Location = new System.Drawing.Point(3, 150);
             this.TgtPrintCols.Name = "TgtPrintCols";
-            this.TgtPrintCols.Size = new System.Drawing.Size(134, 23);
+            this.TgtPrintCols.Size = new System.Drawing.Size(148, 23);
             this.TgtPrintCols.TabIndex = 9;
             this.TgtPrintCols.Value = new decimal(new int[] {
             10,
@@ -202,7 +204,7 @@ namespace CFCreator
             this.srcRegRowLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.srcRegRowLabel.Location = new System.Drawing.Point(3, 176);
             this.srcRegRowLabel.Name = "srcRegRowLabel";
-            this.srcRegRowLabel.Size = new System.Drawing.Size(134, 15);
+            this.srcRegRowLabel.Size = new System.Drawing.Size(148, 15);
             this.srcRegRowLabel.TabIndex = 4;
             this.srcRegRowLabel.Text = "Source Region Rows";
             // 
@@ -216,7 +218,7 @@ namespace CFCreator
             0,
             0});
             this.SrcRegRows.Name = "SrcRegRows";
-            this.SrcRegRows.Size = new System.Drawing.Size(134, 23);
+            this.SrcRegRows.Size = new System.Drawing.Size(148, 23);
             this.SrcRegRows.TabIndex = 5;
             this.SrcRegRows.Value = new decimal(new int[] {
             2,
@@ -230,7 +232,7 @@ namespace CFCreator
             this.srcRegColLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.srcRegColLabel.Location = new System.Drawing.Point(3, 220);
             this.srcRegColLabel.Name = "srcRegColLabel";
-            this.srcRegColLabel.Size = new System.Drawing.Size(134, 15);
+            this.srcRegColLabel.Size = new System.Drawing.Size(148, 15);
             this.srcRegColLabel.TabIndex = 6;
             this.srcRegColLabel.Text = "Source Region Columns";
             // 
@@ -244,7 +246,7 @@ namespace CFCreator
             0,
             0});
             this.SrcRegCols.Name = "SrcRegCols";
-            this.SrcRegCols.Size = new System.Drawing.Size(134, 23);
+            this.SrcRegCols.Size = new System.Drawing.Size(148, 23);
             this.SrcRegCols.TabIndex = 7;
             this.SrcRegCols.Value = new decimal(new int[] {
             2,
@@ -258,7 +260,7 @@ namespace CFCreator
             this.srcClustRowLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.srcClustRowLabel.Location = new System.Drawing.Point(3, 264);
             this.srcClustRowLabel.Name = "srcClustRowLabel";
-            this.srcClustRowLabel.Size = new System.Drawing.Size(134, 15);
+            this.srcClustRowLabel.Size = new System.Drawing.Size(148, 15);
             this.srcClustRowLabel.TabIndex = 14;
             this.srcClustRowLabel.Text = "Source Cluster Rows";
             // 
@@ -272,7 +274,7 @@ namespace CFCreator
             0,
             0});
             this.SrcClustRows.Name = "SrcClustRows";
-            this.SrcClustRows.Size = new System.Drawing.Size(134, 23);
+            this.SrcClustRows.Size = new System.Drawing.Size(148, 23);
             this.SrcClustRows.TabIndex = 12;
             this.SrcClustRows.Value = new decimal(new int[] {
             5,
@@ -286,7 +288,7 @@ namespace CFCreator
             this.srcClustColLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.srcClustColLabel.Location = new System.Drawing.Point(3, 308);
             this.srcClustColLabel.Name = "srcClustColLabel";
-            this.srcClustColLabel.Size = new System.Drawing.Size(134, 15);
+            this.srcClustColLabel.Size = new System.Drawing.Size(148, 15);
             this.srcClustColLabel.TabIndex = 15;
             this.srcClustColLabel.Text = "Source Cluster Columns";
             // 
@@ -300,7 +302,7 @@ namespace CFCreator
             0,
             0});
             this.SrcClustCols.Name = "SrcClustCols";
-            this.SrcClustCols.Size = new System.Drawing.Size(134, 23);
+            this.SrcClustCols.Size = new System.Drawing.Size(148, 23);
             this.SrcClustCols.TabIndex = 13;
             this.SrcClustCols.Value = new decimal(new int[] {
             5,
@@ -313,7 +315,7 @@ namespace CFCreator
             this.DrawWafer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DrawWafer.Location = new System.Drawing.Point(3, 355);
             this.DrawWafer.Name = "DrawWafer";
-            this.DrawWafer.Size = new System.Drawing.Size(134, 53);
+            this.DrawWafer.Size = new System.Drawing.Size(148, 53);
             this.DrawWafer.TabIndex = 1;
             this.DrawWafer.Text = "Draw Wafers";
             this.DrawWafer.UseVisualStyleBackColor = true;
@@ -322,13 +324,24 @@ namespace CFCreator
             // CreateCF
             // 
             this.CreateCF.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CreateCF.Location = new System.Drawing.Point(3, 414);
+            this.CreateCF.Location = new System.Drawing.Point(3, 439);
             this.CreateCF.Name = "CreateCF";
-            this.CreateCF.Size = new System.Drawing.Size(134, 42);
+            this.CreateCF.Size = new System.Drawing.Size(148, 42);
             this.CreateCF.TabIndex = 3;
             this.CreateCF.Text = "Create Cycle File";
             this.CreateCF.UseVisualStyleBackColor = true;
             this.CreateCF.Click += new System.EventHandler(this.CreateCF_Click);
+            // 
+            // ClickOrderCheckBox
+            // 
+            this.ClickOrderCheckBox.AutoSize = true;
+            this.ClickOrderCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ClickOrderCheckBox.Location = new System.Drawing.Point(3, 414);
+            this.ClickOrderCheckBox.Name = "ClickOrderCheckBox";
+            this.ClickOrderCheckBox.Size = new System.Drawing.Size(148, 19);
+            this.ClickOrderCheckBox.TabIndex = 16;
+            this.ClickOrderCheckBox.Text = "Order cycle file by click";
+            this.ClickOrderCheckBox.UseVisualStyleBackColor = true;
             // 
             // CFCreatorForm
             // 
@@ -375,6 +388,7 @@ namespace CFCreator
         private System.Windows.Forms.Label srcRegRowLabel;
         private System.Windows.Forms.Label srcClustRowLabel;
         private System.Windows.Forms.Label srcClustColLabel;
+        private System.Windows.Forms.CheckBox ClickOrderCheckBox;
     }
 }
 
