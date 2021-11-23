@@ -128,7 +128,6 @@ namespace CFCreator
             this.tableLayoutPanel1.SetRowSpan(this.flowLayoutPanel1, 2);
             this.flowLayoutPanel1.Size = new System.Drawing.Size(173, 614);
             this.flowLayoutPanel1.TabIndex = 2;
-            this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
             // TargetIDLabel
             // 
@@ -531,7 +530,7 @@ namespace CFCreator
             this.PPFLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PPFLabel.Location = new System.Drawing.Point(3, 0);
             this.PPFLabel.Name = "PPFLabel";
-            this.PPFLabel.Size = new System.Drawing.Size(83, 17);
+            this.PPFLabel.Size = new System.Drawing.Size(82, 17);
             this.PPFLabel.TabIndex = 22;
             this.PPFLabel.Text = "Picks Per Field";
             this.PPFLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -547,7 +546,7 @@ namespace CFCreator
             0,
             0});
             this.PicksPerField.Name = "PicksPerField";
-            this.PicksPerField.Size = new System.Drawing.Size(83, 23);
+            this.PicksPerField.Size = new System.Drawing.Size(82, 23);
             this.PicksPerField.TabIndex = 23;
             this.PicksPerField.Value = new decimal(new int[] {
             4,
@@ -559,9 +558,9 @@ namespace CFCreator
             // 
             this.StartIndexLabel.AutoSize = true;
             this.StartIndexLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StartIndexLabel.Location = new System.Drawing.Point(92, 0);
+            this.StartIndexLabel.Location = new System.Drawing.Point(91, 0);
             this.StartIndexLabel.Name = "StartIndexLabel";
-            this.StartIndexLabel.Size = new System.Drawing.Size(64, 17);
+            this.StartIndexLabel.Size = new System.Drawing.Size(65, 17);
             this.StartIndexLabel.TabIndex = 24;
             this.StartIndexLabel.Text = "Start Index";
             this.StartIndexLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -569,9 +568,14 @@ namespace CFCreator
             // StartIndex
             // 
             this.StartIndex.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.StartIndex.Location = new System.Drawing.Point(92, 20);
+            this.StartIndex.Location = new System.Drawing.Point(91, 20);
+            this.StartIndex.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.StartIndex.Name = "StartIndex";
-            this.StartIndex.Size = new System.Drawing.Size(64, 23);
+            this.StartIndex.Size = new System.Drawing.Size(65, 23);
             this.StartIndex.TabIndex = 25;
             this.StartIndex.Value = new decimal(new int[] {
             1,

@@ -38,6 +38,7 @@ namespace CFCreator
         public static string targetid;
         public static string sourceid;
         public static int picksperfield;
+        public static int startindex;
         private void DrawWafer_Click(object sender, EventArgs e)
         {
             WaferMaps[0].RegGridSize = new Size ((int)TgtRegCols.Value, (int)TgtRegRows.Value);
@@ -50,9 +51,6 @@ namespace CFCreator
             WaferMaps[1].pictureBox.Image = new Bitmap(1000, 1000);
             MakeGrid(0);
             MakeGrid(1);
-            targetid = TargetID.Text;
-            sourceid = SourceID.Text;
-            picksperfield = (int)PicksPerField.Value;
             foreach (WaferMap wafer in WaferMaps)
             {
                 wafer.OrderClickedTiles.Clear();
@@ -73,6 +71,10 @@ namespace CFCreator
                     wafer.ClickedTiles = wafer.OrderClickedTiles;
                 }
             }
+            targetid = TargetID.Text;
+            sourceid = SourceID.Text;
+            picksperfield = (int)PicksPerField.Value;
+            startindex = (int)StartIndex.Value;
             Functions.WriteCF(this);
         }
         
@@ -130,16 +132,6 @@ namespace CFCreator
             //sets picturebox image to the edited bitmap
             pbx.Image = bitmap;
             WaferMaps[n].DrawTiles(pbx);
-        }
-
-        private void TgtRegLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

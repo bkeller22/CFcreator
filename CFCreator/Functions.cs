@@ -73,7 +73,7 @@ namespace CFCreator
                 sb.Clear();
                 sb.Append("UniqueID, Pick.WaferID, Pick.RegionRow, Pick.RegionColumn, Pick.Row, Pick.Column, Pick.Index, Place.WaferID, Place.RegionRow, Place.RegionColumn, Place.Row, Place.Column\r\n");
                 int srcfield = 1;
-                int pkindex = 1;
+                int pkindex = CFCreatorForm.startindex;
                 
                 for (int i = 1; i <= numlines; i++)
                 {
