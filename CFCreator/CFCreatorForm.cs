@@ -60,16 +60,15 @@ namespace CFCreator
         {
             //uses a 2nd list of clicked tiles in order to preserve the OrderClickedTiles list
             //allows user to check/uncheck box without losing the order they clicked
-            if (TgtClickOrderCheckBox.Checked == false)
+            WaferMaps[0].preserveclick = TgtClickOrderCheckBox.Checked;
+            WaferMaps[1].preserveclick = SrcClickOrderCheckBox.Checked;
+            foreach (WaferMap wafer in WaferMaps)
             {
-                Functions.CountTiles(this);
-            }
-            else
-            {
-                foreach (WaferMap wafer in WaferMaps)
+                if (wafer.preserveclick == false)
                 {
-                    wafer.ClickedTiles = wafer.OrderClickedTiles;
+                    Functions.CountTiles(wafer);
                 }
+                else wafer.ClickedTiles = wafer.OrderClickedTiles;
             }
             targetid = TargetID.Text;
             sourceid = SourceID.Text;
@@ -132,6 +131,11 @@ namespace CFCreator
             //sets picturebox image to the edited bitmap
             pbx.Image = bitmap;
             WaferMaps[n].DrawTiles(pbx);
+        }
+
+        private void OpenRecipeButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

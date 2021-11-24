@@ -19,6 +19,9 @@ namespace CFCreator
         //string builder
         public static StringBuilder sb = new StringBuilder();
 
+        //error message for insufficient picks
+        private static readonly string insuffpicks = new string ("Insufficient picks to complete target!");
+
         ///<summary>
         ///Bool to check if rectangle is inside circle
         /// </summary>
@@ -40,32 +43,29 @@ namespace CFCreator
             }
             return inCircle;
         }
-        public static void CountTiles(CFCreatorForm form)
+        public static void CountTiles(WaferMap wafer)
         {
-            foreach (WaferMap Wafer in Functions.WaferMaps)
+            wafer.ClickedTiles.Clear();
+            foreach (MapTile tile in wafer.MapTileList.Where(x => x.Color == Color.Green))
             {
-                Wafer.ClickedTiles.Clear();
-                foreach (MapTile tile in Wafer.MapTileList.Where(x => x.Color == Color.Green))
-                {
-                    Wafer.ClickedTiles.Add(new TileID(tile.ID.I, tile.ID.J, tile.ID.K, tile.ID.L));
+                wafer.ClickedTiles.Add(new TileID(tile.ID.I, tile.ID.J, tile.ID.K, tile.ID.L));
 
-                }
-                
             }
-
         }
         public static void WriteCF(CFCreatorForm form)
         {
             int numlines = WaferMaps[0].ClickedTiles.Count();
-            if (WaferMaps[1].ClickedTiles.Count() * CFCreatorForm.picksperfield < numlines)
+            if (((WaferMaps[1].ClickedTiles.Count() - 1) * CFCreatorForm.picksperfield) + CFCreatorForm.picksperfield - CFCreatorForm.startindex + 1 < numlines)
             {
-                Debug.WriteLine("insufficient picks to complete target");
+                Debug.WriteLine(insuffpicks);
+                MessageBox.Show(insuffpicks, "Error");
+                
             }
             else
             {
                 string filepath;
                 SaveFileDialog savefile = new SaveFileDialog();
-                savefile.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                savefile.Filter = "txt files (*.txt)|*.txt|csv files (*.csv)|*.csv|All files (*.*)|*.*";
                 savefile.FilterIndex = 2;
                 savefile.RestoreDirectory = true;
                 savefile.InitialDirectory = @"X:\";
